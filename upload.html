@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login with Google</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+
+  <div class="bg-white shadow-md p-6 rounded-lg text-center">
+    <h1 class="text-2xl font-bold mb-4">Login with Google</h1>
+    <button id="googleLogin" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      Sign in with Google
+    </button>
+    <p id="welcomeMessage" class="mt-4 text-green-600 text-lg font-semibold hidden"></p>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyCYvlMeKD9PLo9NFqBk1FuoXEh4Hh-30II",
+  authDomain: "objective-e--admin.firebaseapp.com",
+  databaseURL: "https://objective-e--admin-default-rtdb.firebaseio.com",
+  projectId: "objective-e--admin",
+  storageBucket: "objective-e--admin.firebasestorage.app",
+  messagingSenderId: "1086314554421",
+  appId: "1:1086314554421:web:2963057b9341e9c96b3d7c",
+  measurementId: "G-XKX05JDRD9"
+};
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    document.getElementById("googleLogin").addEventListener("click", () => {
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          document.getElementById("welcomeMessage").textContent = `Welcome, ${user.displayName}!`;
+          document.getElementById("welcomeMessage").classList.remove("hidden");
+        })
+        .catch(error => {
+          console.error("Login error", error);
+          alert("Login failed: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
